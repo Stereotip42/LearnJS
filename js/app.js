@@ -5,7 +5,7 @@ const SMALL = 'small-zombies';
 const MAD = 'mad-zombies';
 const STRONG = 'strong-zombies';
 
-let counters = {
+const counters = {
     [TOTAL]: 0,
     [DEAD]: 0,
     [SMALL]: 0,
@@ -13,25 +13,9 @@ let counters = {
     [STRONG]: 0,
 };
 
-let calculateZombies = () => {
-    let totalCounter = 0;
+const getZombieType = (hp) => {
 
-    zombiesData.map((zombieHP) => {
-        let zombieType = getZombieType(zombieHP);
-        let counter = counters[zombieType];
-
-        counters[zombieType] = ++counter;
-
-        totalCounter++;
-    });
-
-    counters[TOTAL] = totalCounter;
-};
-
-let getZombieType = (incomingHP) => {
-    let hp = parseInt(incomingHP);
-
-    let isNumeric = typeof hp === 'number';
+    let isNumeric = !isNaN(hp) && hp !== null;
 
     if (!isNumeric || hp < 1) {
         return DEAD;
@@ -52,20 +36,33 @@ let getZombieType = (incomingHP) => {
     return DEAD;
 };
 
-let outputData = () => {
-    for (let className in counters) {
-        let counter = counters[className];
-        let elementForCounter = document.getElementsByClassName(className);
+// Calculate zombies by types
+let totalCounter = 0;
 
-        if (elementForCounter.length) {
-            // Output to html
-            elementForCounter[0].innerHTML += '{' + counter + '}';
+for (let zombieHP of zombiesData) {
+    let zombieType = getZombieType(zombieHP);
+    let counter = counters[zombieType];
 
-            // Output to console
-            console.log(elementForCounter[0].textContent);
-        }
+    counter++;
+    counters[zombieType] = counter;
+
+    totalCounter++;
+}
+
+counters[TOTAL] = totalCounter;
+
+// Output data
+for (let className in counters) {
+    const counter = counters[className];
+    const elementForCounter = document.getElementsByClassName(className);
+
+    if (elementForCounter.length) {
+        const output = `${elementForCounter[0].innerHTML} {${counter}}`;
+
+        // Output to html
+        elementForCounter[0].innerHTML = output;
+
+        // Output to console
+        console.log(output);
     }
-};
-
-calculateZombies();
-outputData();
+}
