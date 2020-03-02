@@ -1,0 +1,11 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+}
+.zombie-item {
+    height: 110px;
+    border: 1px solid pink;
+    margin: 0 20px 20px 0;
+}
