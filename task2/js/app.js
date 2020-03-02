@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             zombieContainer.appendChild(zombieItem);
 
-            zombieItem.addEventListener('click', function() {
-                this.src = srcDeadZombie;
+            zombieItem.addEventListener('click', () => {
+                zombieItem.src = srcDeadZombie;
             });
         }
     }
